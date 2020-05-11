@@ -35,6 +35,7 @@ public class ProductPage extends AbstractPage{
     private WebElement itemsInStock;
 
     @FindBy(css = "input.input-text")
+
     private WebElement inputNumberOfItems;
 
     public ProductPage() {
