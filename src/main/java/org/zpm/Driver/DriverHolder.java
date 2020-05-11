@@ -18,8 +18,8 @@ public enum DriverHolder {
 
     public WebDriver initDriver(DriverType driverType) {
         driver = DriverFactory.setDriver(driverType);
-        driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
-//        webDriverWait = new WebDriverWait(driver,10,100); // need to realise
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        webDriverWait = new WebDriverWait(driver,30,100);
         return driver;
     }
 

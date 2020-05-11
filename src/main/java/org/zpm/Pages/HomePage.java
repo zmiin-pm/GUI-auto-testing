@@ -17,6 +17,10 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//ul[@class=\"products\"]")
     private List<WebElement> productArrivals;
 
+    @FindBy(xpath = "//ul[@class=\"products\"]//img")
+    private List<WebElement> productArrivalsImg;
+
+
     @FindBy(xpath = "//ul[@class=\"products\"]//img/ancestor::a")
     private List<WebElement> productImgLink;
 
@@ -38,20 +42,14 @@ public class HomePage extends AbstractPage {
     }
 
     public int countArrivals(){
+        for (WebElement element:productArrivals) {
+            waitForVisible(element);
+        }
         return productArrivals.size();
-    }
-
-    public List<WebElement> getImgList(){
-        return DriverHolder
-                .INSTANCE
-                .getDriver()
-                .findElements(By.xpath("//ul[@class=\"products\"]//img"));
     }
 
     public ProductPage clickOnProduct(){
         productImgLink.get(0).click();
         return new ProductPage();
     }
-
-
 }
