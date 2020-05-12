@@ -29,8 +29,8 @@ public class TestsShop extends BaseTest {
 
     @Test()
     public void ShopMenu_clickCategoryLink_viewParticularProduct() {
-        CategoryPage category = shop.getCategoryPage();
-        Assert.assertTrue(category.getNumberOfProducts() == category.getNumberOfProducts());
+        CategoryPage category = shop.clickProductInCategory();
+        Assert.assertTrue(category.atHtmlPage());
     }
 
     @Test()

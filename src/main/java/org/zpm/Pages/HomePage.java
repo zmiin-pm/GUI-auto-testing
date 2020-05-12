@@ -49,6 +49,7 @@ public class HomePage extends AbstractPage {
     }
 
     public ProductPage clickOnProduct(){
+        waitForVisibleForList(productImgLink);
         productImgLink.get(0).click();
         return new ProductPage();
     }
