@@ -22,8 +22,9 @@ public class TestsShop extends BaseTest {
     // But works when it is run manually
 
     @Test(priority = 1)
-    public void ShopMenu_filter150to450_viewBooksWithSpecifiedPrice() {
-        shop.changeMaxPriceTo(450);
+    public void ShopMenu_filter150to450_viewBooksWithSpecifiedPrice() throws InterruptedException {
+        shop.changeMaxPriceTo(); //450
+        Thread.sleep(10000);
         Assert.assertTrue(shop.priceOfAllProductsBetween(150, 450));
     }
 

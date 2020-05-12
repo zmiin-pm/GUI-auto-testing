@@ -42,19 +42,22 @@ public class ShopPage extends AbstractPage {
     @FindBy(css = ".orderby")
     WebElement sortSelect;
 
-
+    @FindBy(css = ".ui-slider-range")
+    WebElement slider;
 
     public ShopPage open() {
         super.open(URLConstants.SHOP_PAGE);
         return this;
     }
 
-    public ShopPage changeMaxPriceTo(int price) {
-        try {
-            filterMaxPriceInput.sendKeys(String.valueOf(price));
-        } catch (ElementNotInteractableException e) {
-            filterMaxPriceInput.sendKeys(String.valueOf(price));
-        }
+    public ShopPage changeMaxPriceTo() {
+        int width=slider.getSize().getWidth();
+        System.out.println(width);
+        Actions move = new Actions(DriverHolder.INSTANCE.getDriver());
+        move.moveToElement(slider, 60, 0) // мышка с центра элемента пермещяется вправо на 60 пикс
+                .click()                                 // клик
+                .build()
+                .perform();
         priceSubmitButton.submit();
         return this;
     }
