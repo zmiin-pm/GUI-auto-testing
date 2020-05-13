@@ -1,9 +1,7 @@
-package org.zpm;
+package org.zpm.tests;
 
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 import org.zpm.Driver.DriverHolder;
 import org.zpm.Driver.DriverType;
 import org.zpm.Pages.*;

@@ -1,4 +1,4 @@
-package org.zpm;
+package org.zpm.tests;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -38,7 +38,7 @@ public class TestMyAccount extends BaseTest {
     public void OrdersPage_ClickView_viewCustomerAndBilling() {
         Assert.assertTrue(myAccount
                 .clickOrders()
-                .clickOrdersViewButton()
+//                .clickOrdersViewButton()  // Чтобы упал
                 .checkOrderCustomerBillDetailsArePresent());
     }
 

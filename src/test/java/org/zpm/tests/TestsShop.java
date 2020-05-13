@@ -1,4 +1,4 @@
-package org.zpm;
+package org.zpm.tests;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
