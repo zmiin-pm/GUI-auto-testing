@@ -15,22 +15,28 @@ public class CategoryPage extends AbstractPage {
     public CategoryPage() {
     }
 
+    @Override
+    protected boolean atPage() {
+        return false;
+    }
+
     public int getNumberOfProducts(){
+        System.out.println(getNumberFromStr(numberOfProducts.getText()));
         return getNumberFromStr(numberOfProducts.getText());
     }
 
     public int countArrivals(){
-        for (WebElement element:productTitles) {
-            waitForVisible(element);
-        }
+    waitForVisibleForList(productTitles);
+        System.out.println(productTitles.size());
         return productTitles.size();
     }
 
-    @Override
-    public boolean atPage() {
+    public boolean atHtmlPage() {
+        System.out.println(DriverHolder.INSTANCE.getDriver()
+                .getCurrentUrl());
         if (DriverHolder.INSTANCE.getDriver()
                 .getCurrentUrl()
-                .equals(URLConstants.BASE_URL +  "/product-category/*/")) {
+                .equals("http://practice.automationtesting.in/product-category/html/")) {
             return true;
         }
         return false;

@@ -80,7 +80,8 @@ public class ShopPage extends AbstractPage {
                 .anyMatch(x -> x > max || x < min));
     }
 
-    public CategoryPage getCategoryPage() {
+    public CategoryPage clickProductInCategory() {
+        waitForVisibleForList(categoryLink);
         categoryLink.get(1).click();
         return new CategoryPage();
     }

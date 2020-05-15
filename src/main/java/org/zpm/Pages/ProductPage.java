@@ -62,7 +62,8 @@ public class ProductPage extends AbstractPage{
         return false;
     }
 
-    public ProductPage clickOnReviewsTab(){
+    public ProductPage clickOnReviewsTab() {
+        waitForVisible(reviewsTab);
         reviewsTab.click();
         return this;
     }
