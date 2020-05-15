@@ -3,6 +3,7 @@ package org.zpm.Pages;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.zpm.Driver.DriverHolder;
 
 public class ProductPage extends AbstractPage{
@@ -35,6 +36,7 @@ public class ProductPage extends AbstractPage{
     private WebElement itemsInStock;
 
     @FindBy(css = "input.input-text")
+
     private WebElement inputNumberOfItems;
 
     public ProductPage() {
@@ -79,14 +81,26 @@ public class ProductPage extends AbstractPage{
         }
         catch( StaleElementReferenceException e )
         {
+            waitForClick(addToBasketButton);
             addToBasketButton.click();
         }
         return this;
     }
 
     public int getBasketItemsNumber(){
-        return getNumberFromStr(basketItems
-                .getText());
+        int text;
+        try
+        {
+            text = getNumberFromStr(basketItems
+                    .getText());
+        }
+        catch( StaleElementReferenceException e )
+        {
+            waitForVisible(basketItems);
+            text = getNumberFromStr(basketItems
+                    .getText());
+        }
+        return text;
     }
 
     public int getNumberOfItemsInStock(){

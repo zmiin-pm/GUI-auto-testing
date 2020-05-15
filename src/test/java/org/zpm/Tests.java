@@ -1,11 +1,22 @@
 package org.zpm;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.zpm.Pages.HomePage;
 import org.zpm.Pages.ProductPage;
+import org.zpm.Pages.ShopPage;
 
 
 public class Tests extends BaseTest {
+
+    @BeforeMethod
+    public void beforeTest(){
+        ShopPage shop = new HomePage()
+                .open()
+                .clickShopMenuItem();
+        home = shop.clickHomeLink();
+    }
 
     @Test()
     public void ShouldOpenHomePageWithThreeSlidersOnly() {

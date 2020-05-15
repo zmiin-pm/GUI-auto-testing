@@ -7,27 +7,20 @@ import org.testng.annotations.BeforeTest;
 import org.zpm.Driver.DriverHolder;
 import org.zpm.Driver.DriverType;
 import org.zpm.Pages.AbstractPage;
+import org.zpm.Pages.CategoryPage;
 import org.zpm.Pages.HomePage;
 import org.zpm.Pages.ShopPage;
 
 public class BaseTest {
 
     protected static HomePage home;
+    protected static ShopPage shop;
 
     @BeforeSuite
     public void beforeSuite(){
         DriverHolder driverHolder = DriverHolder.INSTANCE;
-        driverHolder.initDriver(DriverType.OPERA);
+        driverHolder.initDriver(DriverType.CHROME);
     }
-
-    @BeforeMethod
-    public void beforeTest(){
-        ShopPage shop = new HomePage()
-                .open()
-                .clickShopMenuItem();
-        home = shop.clickHomeLink();
-    }
-
 
     @AfterSuite
     public void afterClass() {
