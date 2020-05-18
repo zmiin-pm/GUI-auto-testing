@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.zpm.Driver.DriverHolder;
+import org.zpm.Driver.DriverType;
 
 import java.util.List;
 
@@ -15,12 +16,17 @@ public abstract class AbstractPage {
     @FindBy(xpath = "//h3")
     protected List<WebElement> productTitles;
 
+
+
     protected AbstractPage() {
         PageFactory.initElements(DriverHolder.INSTANCE.getDriver(), this);
     }
 
+
+
     protected AbstractPage open(String url){
-        DriverHolder.INSTANCE.getDriver().get(url);
+
+       DriverHolder.INSTANCE.getDriver().get(url);
         return this;
     }
 

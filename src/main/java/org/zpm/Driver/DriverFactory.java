@@ -25,7 +25,7 @@ public class DriverFactory {
         return new ChromeDriver();
     }
 
-    // for run from console
+    // for run from console with command -Ddriver.type=opera
     public static WebDriver setDriver () {
         DriverType driverType = DriverType.valueOf(System.getProperty("driver.type").toUpperCase());
         return setDriver(driverType);

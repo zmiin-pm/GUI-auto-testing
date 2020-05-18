@@ -1,20 +1,15 @@
 package org.zpm.Pages;
 
-import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.zpm.Driver.DriverHolder;
 import org.zpm.URLConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import org.openqa.selenium.support.ui.Select;
 
 public class ShopPage extends AbstractPage {
 
@@ -52,7 +47,6 @@ public class ShopPage extends AbstractPage {
 
     public ShopPage changeMaxPriceTo() {
         int width=slider.getSize().getWidth();
-        System.out.println(width);
         Actions move = new Actions(DriverHolder.INSTANCE.getDriver());
         move.moveToElement(slider, 60, 0) // мышка с центра элемента пермещяется вправо на 60 пикс
                 .click()                                 // клик

@@ -5,9 +5,6 @@ import org.openqa.selenium.support.FindBy;
 import org.zpm.Driver.DriverHolder;
 import org.zpm.URLConstants;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MyAccountPage extends AbstractPage {
     public MyAccountPage() {
     }
@@ -58,47 +55,47 @@ public class MyAccountPage extends AbstractPage {
     WebElement orderStatus;
 
 
-    public MyAccountPage loginMyAccount(String name, String password){
-        waitForVisible(usernameInput);
+    public MyAccountPage loginMyAccount(String name, String password) {
+//        waitForVisible(usernameInput);
         usernameInput.sendKeys(name);
-        waitForVisible(passwordInput);
+//        waitForVisible(passwordInput);
         passwordInput.sendKeys(password);
-        waitForClick(loginSubmitButton);
+//        waitForClick(loginSubmitButton);
         loginSubmitButton.click();
         return this;
     }
 
-    public MyAccountPage signOutMyAccount(){
+    public MyAccountPage signOutMyAccount() {
         signOutLink.click();
         return this;
     }
 
-    public MyAccountPage clickDashboard(){
+    public MyAccountPage clickDashboard() {
         dashboardLink.click();
         return this;
     }
 
-    public MyAccountPage clickOrders(){
+    public MyAccountPage clickOrders() {
         ordersLink.click();
         return this;
     }
 
-    public MyAccountPage clickOrdersViewButton(){
+    public MyAccountPage clickOrdersViewButton() {
         ordersViewButton.click();
         return this;
     }
 
-    public boolean checkDashboardTextIsPresent(){
+    public boolean checkDashboardTextIsPresent() {
         return dashboardText.getText().contains("From your account dashboard you can");
     }
 
-    public boolean checkOrdersTableIsPresent(){
+    public boolean checkOrdersTableIsPresent() {
         ordersLink.click();
         waitForVisible(ordersTable);
         return ordersTable.isDisplayed();
     }
 
-    public boolean checkOrderCustomerBillDetailsArePresent(){
+    public boolean checkOrderCustomerBillDetailsArePresent() {
         boolean orderDetailsArePresent = ordersDetails.isDisplayed();
         boolean customerDetailsArePresent = customerDetails.isDisplayed();
         boolean billingDetailsArePresent = billingDetails.isDisplayed();
@@ -114,7 +111,7 @@ public class MyAccountPage extends AbstractPage {
         return (orderDetailsArePresent && customerDetailsArePresent && billingDetailsArePresent);
     }
 
-    public boolean checkOrderNumberDateStatusArePresent(){
+    public boolean checkOrderNumberDateStatusArePresent() {
         boolean orderNumberIsPresent = orderNumber.isDisplayed();
         boolean orderDateIsPresent = orderDate.isDisplayed();
         boolean orderStatusIsPresent = orderStatus.isDisplayed();
@@ -130,10 +127,11 @@ public class MyAccountPage extends AbstractPage {
         return (orderNumberIsPresent && orderDateIsPresent && orderStatusIsPresent);
     }
 
-    public MyAccountPage open(){
+    public MyAccountPage open() {
         super.open(URLConstants.MYACCOUNT_PAGE);
         return this;
     }
+
     @Override
     public boolean atPage() {
         String currentURL = DriverHolder.INSTANCE.getDriver().getCurrentUrl();

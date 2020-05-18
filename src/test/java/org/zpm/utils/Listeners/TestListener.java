@@ -1,77 +1,91 @@
 package org.zpm.utils.Listeners;
 
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.MediaEntityModelProvider;
+import com.aventstack.extentreports.service.ExtentTestManager;
+import com.aventstack.extentreports.testng.listener.ExtentITestListenerAdapter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
-import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.zpm.Driver.DriverHolder;
-import org.zpm.tests.BaseTest;
-import org.zpm.utils.ExtentReports.ExtentManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 
-public class TestListener extends BaseTest implements ITestListener {
-
-    //Extent Report Declarations
-    private static ExtentReports extent = ExtentManager.createInstance();
-    private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
+public class TestListener extends ExtentITestListenerAdapter {
+    private String scrFolder = System.getProperty("user.dir") + "\\test-output\\Screenshots\\";
 
     @Override
     public synchronized void onStart(ITestContext context) {
-        System.out.println("Extent Reports Version 3 Test Suite started!");
+        super.onStart(context);
+
+        if(Files.isDirectory(Paths.get(scrFolder))) {
+            try {
+                FileUtils.cleanDirectory(new File(scrFolder));
+                System.out.println("Previous screenshots were deleted");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public synchronized void onFinish(ITestContext context) {
-        System.out.println(("Extent Reports Version 3  Test Suite is ending!"));
-        extent.flush();
-    }
-
-    @Override
-    public synchronized void onTestStart(ITestResult result) {
-        System.out.println((result.getMethod().getMethodName() + " started!"));
-        ExtentTest extentTest = extent.createTest(result.getMethod().getMethodName(),result.getMethod().getDescription());
-        test.set(extentTest);
-    }
-
-    @Override
-    public synchronized void onTestSuccess(ITestResult result) {
-        System.out.println((result.getMethod().getMethodName() + " passed!"));
-        test.get().pass("Test passed");
-    }
-
-    @Override
-    public synchronized void onTestFailure(ITestResult result) {
-        System.out.println((result.getMethod().getMethodName() + " failed!"));
-        test.get().fail(result.getThrowable());
-        takeScreenShot(result.getMethod().getMethodName(), DriverHolder.INSTANCE.getDriver());
-    }
-
-    public void takeScreenShot(String methodName, WebDriver driver) {
-        File scrFile = ((TakesScreenshot) DriverHolder.INSTANCE.getDriver()).getScreenshotAs(OutputType.FILE);
-        //The below method will save the screen shot in d drive with test method name
+    public synchronized void onTestSkipped(ITestResult result) {
+        super.onTestSkipped(result);
+        ExtentTest test = ExtentTestManager.getTest();
+        test.skip(result.getThrowable().getMessage());
+        String scrFileName = result.getName() + "_" + test.getStatus();
         try {
-            FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir")+ "\\TestReport"+methodName+".png"));
-            System.out.println("***Placed screen shot in "+System.getProperty("user.dir")+ "\\TestReport"+methodName+".png"+" ***");
+            String base64Screenshot = encodeBase64(takeScr(scrFileName));
+            MediaEntityModelProvider mediaModel = MediaEntityBuilder.createScreenCaptureFromBase64String(base64Screenshot).build();
+            ExtentTestManager.getTest().skip("Test fail image:", mediaModel);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public synchronized void onTestSkipped(ITestResult result) {
-        System.out.println((result.getMethod().getMethodName() + " skipped!"));
-        test.get().skip(result.getThrowable());
+    public synchronized void onTestFailure(ITestResult result) {
+        super.onTestFailure(result);
+        ExtentTest test = ExtentTestManager.getTest();
+        test.fail(result.getThrowable().getMessage());
+        String scrFileName = result.getName() + "_" + test.getStatus();
+        try {
+            String base64Screenshot = encodeBase64(takeScr(scrFileName));
+            MediaEntityModelProvider mediaModel = MediaEntityBuilder.createScreenCaptureFromBase64String(base64Screenshot).build();
+            ExtentTestManager.getTest().fail("Test fail image:", mediaModel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        System.out.println(("onTestFailedButWithinSuccessPercentage for " + result.getMethod().getMethodName()));
+    private File takeScr(String scrName) {
+        TakesScreenshot ts = (TakesScreenshot) DriverHolder.INSTANCE.getDriver();
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        String filePath = scrFolder + scrName + ".png";
+        File scrFile = new File(filePath);
+        try {
+            FileUtils.copyFile(source, scrFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return scrFile;
+    }
+
+    public static String encodeBase64(File scrName) {
+        String encodedBase64 = null;
+        try {
+            encodedBase64 = Base64.getEncoder().encodeToString(
+                    FileUtils.readFileToByteArray(scrName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return encodedBase64;
     }
 }

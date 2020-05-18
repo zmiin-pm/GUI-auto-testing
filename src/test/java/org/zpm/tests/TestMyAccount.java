@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.zpm.Pages.MyAccountPage;
 
+
 public class TestMyAccount extends BaseTest {
 
     @BeforeMethod
@@ -38,7 +39,7 @@ public class TestMyAccount extends BaseTest {
     public void OrdersPage_ClickView_viewCustomerAndBilling() {
         Assert.assertTrue(myAccount
                 .clickOrders()
-//                .clickOrdersViewButton()  // Чтобы упал
+                .clickOrdersViewButton()
                 .checkOrderCustomerBillDetailsArePresent());
     }
 
